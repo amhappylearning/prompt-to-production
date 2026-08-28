@@ -2,6 +2,7 @@ import argparse
 import re
 from pathlib import Path
 
+# These clauses are the README-defined ground truth for the summary.
 REQUIRED_CLAUSES = (
     "2.3", "2.4", "2.5", "2.6", "2.7",
     "3.2", "3.4", "5.2", "5.3", "7.2",
@@ -30,6 +31,7 @@ def retrieve_policy(path):
                 clauses[current_clause] = " ".join(current_lines).strip()
             current_clause = match.group(1)
             current_lines = [match.group(2).strip()]
+        # Section headings and divider lines must not become part of a clause.
         elif current_clause is not None and line[:1].isspace() and line.strip():
             current_lines.append(line.strip())
     if current_clause is not None:
